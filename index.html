@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="毎日の健康を、もっと気軽に。みんなのWEBサービスと、AIで血圧手帳を読み取る「みんなの血圧手帳」をご紹介します。">
+  <meta name="theme-color" content="#f8f7f1">
+  <title>みんなのWEBサービス｜毎日の健康を、もっと気軽に</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #293735;
+      --muted: #63736e;
+      --green: #477b66;
+      --green-dark: #315f4e;
+      --mint: #e6f1e9;
+      --cream: #f8f7f1;
+      --coral: #f0aa91;
+      --white: #fff;
+      font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.8;
+    }
+    a { color: inherit; }
+    a:focus-visible {
+      outline: 3px solid #d57959;
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+    .wrap { width: min(1080px, calc(100% - 40px)); margin-inline: auto; }
+    .header { padding: 22px 0; }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      color: var(--green-dark);
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-decoration: none;
+    }
+    .nav { display: flex; align-items: center; gap: 26px; }
+    .nav a { color: var(--muted); font-size: .92rem; text-decoration: none; }
+    .nav a:hover { color: var(--green-dark); }
+    .hero { padding: 52px 0 90px; }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      align-items: center;
+      gap: 52px;
+    }
+    .eyebrow {
+      display: inline-block;
+      margin: 0 0 14px;
+      color: var(--green-dark);
+      font-size: .9rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 620px;
+      margin-bottom: 20px;
+      font-size: clamp(2.25rem, 5vw, 3.7rem);
+      line-height: 1.35;
+      letter-spacing: .025em;
+    }
+    h1 span { color: var(--green); }
+    .hero-copy { max-width: 530px; margin-bottom: 28px; color: var(--muted); font-size: 1.06rem; }
+    .button {
+      display: inline-flex;
+      min-height: 54px;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 25px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--green);
+      color: var(--white);
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s, transform .2s;
+    }
+    .button:hover { transform: translateY(-2px); background: var(--green-dark); }
+    .hero-art {
+      position: relative;
+      display: grid;
+      min-height: 350px;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 46% 54% 58% 42% / 44% 42% 58% 56%;
+      background: var(--mint);
+    }
+    .sun {
+      position: absolute;
+      top: 42px;
+      right: 52px;
+      width: 64px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #f6d9a7;
+    }
+    .plant {
+      position: absolute;
+      bottom: -10px;
+      left: 36px;
+      color: #86aa8d;
+      font-size: 6rem;
+      transform: rotate(-18deg);
+    }
+    .paper {
+      position: relative;
+      z-index: 1;
+      width: min(270px, 70%);
+      padding: 24px 25px;
+      border: 1px solid #e8ece5;
+      border-radius: 18px;
+      background: var(--white);
+      box-shadow: 0 18px 45px #385c4821;
+      transform: rotate(3deg);
+    }
+    .paper-title { margin-bottom: 18px; color: var(--green-dark); font-weight: 800; }
+    .reading { display: flex; align-items: baseline; gap: 7px; margin-bottom: 5px; }
+    .reading strong { font-size: 2.3rem; line-height: 1.2; }
+    .reading span, .paper small { color: var(--muted); }
+    .chart {
+      display: block;
+      width: 100%;
+      height: 86px;
+      margin-top: 14px;
+      overflow: visible;
+    }
+    .chart path { fill: none; stroke: #6fa181; stroke-linecap: round; stroke-linejoin: round; stroke-width: 4; }
+    .section { padding: 78px 0; }
+    .section-white { background: var(--white); }
+    .section-heading { max-width: 650px; margin: 0 auto 42px; text-align: center; }
+    .section-heading h2 { margin-bottom: 12px; font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.45; }
+    .section-heading p { margin-bottom: 0; color: var(--muted); }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .feature {
+      padding: 28px 25px;
+      border: 1px solid #e9eee7;
+      border-radius: 18px;
+      background: #fff;
+    }
+    .feature-icon {
+      display: grid;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 18px;
+      place-items: center;
+      border-radius: 16px;
+      background: var(--mint);
+      font-size: 1.55rem;
+    }
+    .feature h3 { margin-bottom: 8px; font-size: 1.15rem; }
+    .feature p { margin-bottom: 0; color: var(--muted); font-size: .95rem; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; counter-reset: step; }
+    .step { position: relative; padding-top: 65px; counter-increment: step; }
+    .step::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--mint);
+      color: var(--green-dark);
+      content: counter(step);
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+    .step h3 { margin-bottom: 8px; font-size: 1.12rem; }
+    .step p { margin-bottom: 0; color: var(--muted); font-size: .95rem; }
+    .service-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 30px;
+      padding: 38px 42px;
+      border-radius: 24px;
+      background: var(--mint);
+    }
+    .service-card h2 { margin-bottom: 10px; font-size: clamp(1.6rem, 4vw, 2.15rem); }
+    .service-card p { max-width: 620px; margin-bottom: 0; color: var(--muted); }
+    .note { margin: 25px auto 0; color: var(--muted); font-size: .84rem; text-align: center; }
+    .footer { padding: 30px 0; color: var(--muted); font-size: .85rem; text-align: center; }
+    .footer p { margin: 0; }
+
+    @media (max-width: 720px) {
+      .wrap { width: min(100% - 32px, 540px); }
+      .header { padding: 17px 0; }
+      .brand { font-size: 1rem; }
+      .nav { gap: 15px; }
+      .nav a { font-size: .82rem; }
+      .hero { padding: 35px 0 62px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 32px; }
+      .hero-art { min-height: 280px; }
+      .sun { top: 28px; right: 36px; width: 52px; }
+      .features, .steps { grid-template-columns: 1fr; gap: 15px; }
+      .feature { padding: 23px; }
+      .steps { gap: 28px; }
+      .section { padding: 58px 0; }
+      .service-card { grid-template-columns: 1fr; gap: 22px; padding: 28px 24px; }
+      .service-card .button { justify-self: start; }
+    }
+    @media (max-width: 390px) {
+      .header-inner { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .nav { width: 100%; justify-content: space-between; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top">みんなのWEBサービス</a>
+      <nav class="nav" aria-label="メインメニュー">
+        <a href="#about">サービス紹介</a>
+        <a href="#how-to">使い方</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <div>
+          <p class="eyebrow">毎日の健康を、もっと気軽に。</p>
+          <h1>健康の記録を、<br><span>あなたの味方に。</span></h1>
+          <p class="hero-copy">むずかしい操作はありません。毎日の記録を見やすくして、健康を気にかけるあなたをお手伝いします。</p>
+          <a class="button" href="https://example.com/">血圧手帳を見てみる <span aria-hidden="true">　→</span></a>
+        </div>
+        <div class="hero-art" role="img" aria-label="血圧の記録がグラフになったイメージ">
+          <span class="sun" aria-hidden="true"></span>
+          <span class="plant" aria-hidden="true">❧</span>
+          <div class="paper" aria-hidden="true">
+            <p class="paper-title">きょうの記録</p>
+            <div class="reading"><strong>124</strong><span>/ 78 mmHg</span></div>
+            <small>記録を続けると、変化が見えてきます</small>
+            <svg class="chart" viewBox="0 0 220 86" aria-hidden="true">
+              <path d="M8 64 C32 48 40 60 61 43 S91 53 110 34 S143 45 161 24 S190 32 212 12"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white" id="about">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">いま使えるサービス</p>
+          <h2>「みんなの血圧手帳」</h2>
+          <p>紙の血圧手帳を、もっと手軽に振り返れるように。AIが記録の整理をお手伝いします。</p>
+        </div>
+        <div class="features">
+          <article class="feature">
+            <span class="feature-icon" aria-hidden="true">📷</span>
+            <h3>手帳をAIで読み取り</h3>
+            <p>血圧手帳を撮影して、記録を簡単に取り込めます。</p>
+          </article>
+          <article class="feature">
+            <span class="feature-icon" aria-hidden="true">📈</span>
+            <h3>グラフで見やすく</h3>
+            <p>日々の血圧の記録をグラフにして、変化を振り返れます。</p>
+          </article>
+          <article class="feature">
+            <span class="feature-icon" aria-hidden="true">🧮</span>
+            <h3>平均を自動で計算</h3>
+            <p>記録した数値の平均を計算。毎日の記録をまとめる手間を減らします。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how-to">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">かんたん３ステップ</p>
+          <h2>いつもの手帳から始めましょう</h2>
+          <p>パソコンやスマートフォンの操作が得意でなくても、気軽にお試しいただけます。</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <h3>手帳を撮影する</h3>
+            <p>いつも使っている血圧手帳を、スマートフォンで撮影します。</p>
+          </article>
+          <article class="step">
+            <h3>AIが記録を読み取る</h3>
+            <p>写真から血圧の記録を読み取り、見やすく整理します。</p>
+          </article>
+          <article class="step">
+            <h3>グラフや平均を確認</h3>
+            <p>まとめられた記録をグラフや平均で振り返れます。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white">
+      <div class="wrap">
+        <div class="service-card">
+          <div>
+            <p class="eyebrow">毎日の記録を、無理なく</p>
+            <h2>血圧手帳を、気軽に見直してみませんか？</h2>
+            <p>「みんなの血圧手帳」で、日々の記録を見やすく整理しましょう。</p>
+          </div>
+          <a class="button" href="https://example.com/">サービスを見る <span aria-hidden="true">　→</span></a>
+        </div>
+        <p class="note">このサービスは血圧の記録を整理・表示するものです。健康状態の判断や治療については、医師などの専門家にご相談ください。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>© みんなのWEBサービス</p></div>
+  </footer>
+</body>
+</html>
