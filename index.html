@@ -124,12 +124,15 @@
       justify-content: center;
       gap: 10px;
       padding: 0 22px;
+      border: 0;
       border-radius: 8px;
       background: var(--green);
       color: #fff;
+      font-family: inherit;
       font-size: 14px;
       font-weight: 700;
       text-decoration: none;
+      cursor: pointer;
       transition: background .2s, transform .2s;
     }
 
@@ -256,6 +259,7 @@
 
     .service-card h3 { margin: 0 0 8px; font-size: 17px; }
     .service-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .service-card .button { margin-top: 20px; padding-inline: 12px; }
 
     .about { padding: 68px 0 76px; }
 
@@ -371,24 +375,34 @@
         </div>
         <div class="service-grid">
           <article class="service-card">
+            <div class="service-icon" aria-hidden="true">♡</div>
+            <h3>みんなの血圧手帳</h3>
+            <p>日々の血圧を記録する手帳です。</p>
+            <a class="button" href="https://bp.min-web-service.jp">利用する</a>
+          </article>
+          <article class="service-card">
             <div class="service-icon" aria-hidden="true">✎</div>
             <h3>みんなのメモ</h3>
             <p>アイデアやちょっとした情報をメモして、必要なときにすぐ確認できるサービスです。</p>
+            <button class="button" type="button" data-coming-soon>作成中</button>
           </article>
           <article class="service-card">
             <div class="service-icon" aria-hidden="true">▤</div>
             <h3>リンクまとめ</h3>
             <p>お気に入りのWEBページをひとまとめに。共有したいリンクも見やすく整理できます。</p>
+            <button class="button" type="button" data-coming-soon>作成中</button>
           </article>
           <article class="service-card">
             <div class="service-icon" aria-hidden="true">⌗</div>
             <h3>QRコード作成</h3>
             <p>URLやテキストからQRコードを作成。イベントやお店の案内にも活用できます。</p>
+            <button class="button" type="button" data-coming-soon>作成中</button>
           </article>
           <article class="service-card">
             <div class="service-icon" aria-hidden="true">Aa</div>
             <h3>文字数カウント</h3>
             <p>文章の文字数をすばやく確認。メッセージや原稿の長さを整えたいときに便利です。</p>
+            <button class="button" type="button" data-coming-soon>作成中</button>
           </article>
         </div>
       </div>
@@ -416,5 +430,12 @@
       <p>© みんなのWEBサービス</p>
     </div>
   </footer>
+  <script>
+    document.querySelectorAll('.service-grid button[data-coming-soon]').forEach((button) => {
+      button.addEventListener('click', () => {
+        alert('作成中です、しばらくお待ちください');
+      });
+    });
+  </script>
 </body>
 </html>
